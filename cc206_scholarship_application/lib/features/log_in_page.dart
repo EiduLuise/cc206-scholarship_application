@@ -17,13 +17,13 @@ class LogInPage extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SignUpPage(),
+      home: LogIn(),
     );
   }
 }
 
 
-class SignUpPage extends StatelessWidget {
+class LogIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
