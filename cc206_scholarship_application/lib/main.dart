@@ -1,5 +1,6 @@
+import 'package:cc206_scholarship_application/features/notifications_page.dart';
 import 'package:flutter/material.dart';
-import 'features/log_in_page.dart';
+import 'features/notifications_page.dart';
 
 
 void main() {
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LogInPage(),
+      home: NotificationsPage(),
     );
   }
 }
