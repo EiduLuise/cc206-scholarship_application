@@ -1,4 +1,5 @@
 import 'package:cc206_scholarship_application/features/SignUpPage.dart';
+import 'package:cc206_scholarship_application/features/HomeScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -29,10 +30,10 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: const SignUpPage(),
+      home: HomeScreen(),
     );
   }
 }
