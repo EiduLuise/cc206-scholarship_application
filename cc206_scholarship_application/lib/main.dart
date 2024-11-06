@@ -1,3 +1,4 @@
+import 'package:cc206_scholarship_application/features/SignUpPage.dart';
 import 'package:flutter/material.dart';
 import 'features/log_in_page.dart';
 
@@ -32,7 +33,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LogInPage(),
     );
   }
 }
+
+
