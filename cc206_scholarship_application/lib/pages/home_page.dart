@@ -1,23 +1,8 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Scholarship App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: HomeScreen(),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +26,7 @@ class HomeScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
+                    backgroundColor: Colors.deepOrange,
                   ),
                   child: const Text('Filters',
                   style: TextStyle(color: Colors.white),
@@ -92,8 +77,8 @@ class HomeScreen extends StatelessWidget {
                           ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              minimumSize: Size(double.infinity, 50),
-                              backgroundColor: Color(0xFF234469),
+                              minimumSize: const Size(double.infinity, 50),
+                              backgroundColor: const Color(0xFF234469),
                             ),
                             child: const Text('Apply Now',
                             style: TextStyle(color: Colors.white),
@@ -119,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                 label: '',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.home, color: Colors.orange),
+                icon: Icon(Icons.home, color: Colors.deepOrange),
                 label: '',
               ),
               BottomNavigationBarItem(

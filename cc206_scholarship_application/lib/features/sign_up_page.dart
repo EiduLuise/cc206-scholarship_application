@@ -1,18 +1,51 @@
 import 'package:flutter/material.dart';
 
-import '../pages/home_page.dart';
-import '../features/sign_up_page.dart';
+import '../features/log_in_page.dart';
 
 final _formKey = GlobalKey<FormState>();
 
-class LogIn extends StatelessWidget {
-  const LogIn({super.key});
+void main() {
+  runApp(const MyApp());
+}
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Sign Up Page',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const SignUpPage(),
+    );
+  }
+}
+
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  // Email validation function
   String? validateEmail(String? email) {
-    RegExp emailRegex = RegExp(r'^[\w\.-]+@[\w-]+\.\w{2,3}(\.\w{2,3})?$');
+    RegExp emailRegex = RegExp(r'^[\w\.-]+@[\w-]+\.\w{2,}(\.\w{2,})?$');
     final isEmailValid = emailRegex.hasMatch(email ?? '');
     if (!isEmailValid) {
       return 'Please enter a valid email';
+    }
+    return null;
+  }
+
+   String? validatePhoneNumber(String? phoneNumber) {
+    RegExp phoneRegex = RegExp(r'^\+?[0-9]{10,15}$');
+    final isPhoneValid = phoneRegex.hasMatch(phoneNumber ?? '');
+    if (!isPhoneValid) {
+      return 'Please enter a valid phone number';
     }
     return null;
   }
@@ -30,7 +63,7 @@ class LogIn extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                  'Login to Account',
+                  'Create New Account',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -38,19 +71,36 @@ class LogIn extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                
+                const SizedBox(height: 20),
+               
                 Image.asset('assets/images/scholarship.png',
                   height: 300,),
                 const SizedBox(height: 20),
-
+            
                 SizedBox(
                   width: 300,
                   child: TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'Your Email',
+                      labelText: 'Name',
+                      prefixIcon: const Icon(Icons.person),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+            
+                SizedBox(
+                  width: 300,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Email',
                       prefixIcon: const Icon(Icons.email),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 8.0),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -61,7 +111,25 @@ class LogIn extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-
+            
+                SizedBox(
+                  width: 300,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Phone number',
+                      prefixIcon: const Icon(Icons.phone),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                    ),
+                    validator: validatePhoneNumber,
+                  ),
+                ),
+                const SizedBox(height: 20),
+            
                 SizedBox(
                   width: 300,
                   child: TextFormField(
@@ -69,8 +137,7 @@ class LogIn extends StatelessWidget {
                     decoration: InputDecoration(
                       labelText: 'Password',
                       prefixIcon: const Icon(Icons.lock),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 8.0),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -80,16 +147,31 @@ class LogIn extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-
-                const SizedBox(height: 5),
-
+               
+                const SizedBox(height:5),
+               
                 SizedBox(
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const HomePage()),
+                      _formKey.currentState!.validate();
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                   Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const LogIn()),
+                                  );
+                                },
+                                child: const Text('Continue')),
+                          ],
+                          title: const Text('GrantEd'),
+                          contentPadding: const EdgeInsets.all(20.0),
+                          content: const Text('Press Continue to Login'),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -101,7 +183,7 @@ class LogIn extends StatelessWidget {
                     ),
                     child: const Center(
                       child: Text(
-                        'Log In',
+                        'Sign up',
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.white,
@@ -111,12 +193,12 @@ class LogIn extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-
+            
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Don't have an account?",
+                      "Already have an account?",
                       style: TextStyle(color: Color(0xFF234469)),
                     ),
                     const SizedBox(width: 5),
@@ -124,11 +206,11 @@ class LogIn extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SignUpPage()),
+                          MaterialPageRoute(builder: (context) => const LogIn()),
                         );
                       },
                       child: const Text(
-                        "Sign Up",
+                        "Log In",
                         style: TextStyle(
                           color: Colors.deepOrange,
                           decoration: TextDecoration.underline,
