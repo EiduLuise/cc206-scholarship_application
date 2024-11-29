@@ -1,5 +1,6 @@
+import 'package:cc206_scholarship_application/pages/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'pages/notifications_page.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         body: SafeArea(
-          child: NotificationsPage(),
+          child: Profile(),
         ),
       ),
     );
