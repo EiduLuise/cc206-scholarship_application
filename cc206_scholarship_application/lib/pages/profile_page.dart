@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:cc206_scholarship_application/pages/home_page.dart';
+import 'package:cc206_scholarship_application/pages/notifications_page.dart';
+import 'package:cc206_scholarship_application/pages/calendar.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -8,7 +11,47 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
- 
+  String aboutText =
+      "Jung Mo-eum is a childhood friend of Seok-ryu and Seung-hyo, having grown up alongside them in the neighborhood of Hyeryeong. As such, Mo-eum knows all the secrets...";
+
+  // Method to edit the "About" section
+  void editAbout() {
+    TextEditingController controller = TextEditingController(text: aboutText);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edit About'),
+          content: TextField(
+            controller: controller,
+            maxLines: 5,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  aboutText = controller.text;
+                });
+                Navigator.of(context).pop();
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,26 +108,42 @@ class _ProfileState extends State<Profile> {
             const SizedBox(height: 20),
 
             // About Section
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Expanded(
-                    child: Text(
-                      "About\nJung Mo-eum is a childhood friend of Seok-ryu and Seung-hyo, having grown up alongside them in the neighborhood of Hyeryeong. Has such, Mo-eum knows all the secrets...",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "About",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Icon(Icons.edit, size: 16),
-                ],
-              ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          aboutText,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.edit, size: 16),
+                        onPressed: editAbout,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
 
@@ -184,6 +243,55 @@ class _ProfileState extends State<Profile> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: 2, // Set index to Profile
+        onTap: (index) {
+          // Navigation logic
+          switch (index) {
+            case 0:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Calendar()),
+              );
+              break;
+            case 1:
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const NotificationsPage()),
+              );
+              break;
+            case 2:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomePage()),
+              );
+              break;
+            case 3:
+              // Do nothing for Profile
+              break;
+          }
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today, color: Colors.grey),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications, color: Colors.grey),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home, color: Colors.grey),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person, color: Colors.deepOrange),
+            label: '',
+          ),
+        ],
       ),
     );
   }
