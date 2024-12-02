@@ -1,37 +1,43 @@
+import 'package:cc206_scholarship_application/database/userDatabse.dart';
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 import '../features/log_in_page.dart';
 
-final _formKey = GlobalKey<FormState>();
+class SignUpPage extends StatelessWidget {
+  SignUpPage({super.key});
 
-void main() {
-  runApp(const MyApp());
-}
+  // Controller for text form field
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final UserDatabase _userDatabase = UserDatabase();
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Sign Up Page',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const SignUpPage(),
+  // Fetch sign up methods from userDatabse to register user
+  void _signup(BuildContext context) async {
+    String? result = await _userDatabase.signup(
+      name: nameController.text, 
+      email: emailController.text, 
+      phone: phoneController.text, 
+      password: passwordController.text
     );
+
+    if (result == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Sign up successful! Welcome ${nameController.text}.'),
+        ),
+      );
+      GoRouter.of(context).go('/login');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Sign up failed: $result.')),
+      );
+    }
   }
-}
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
-
-  @override
-  _SignUpPageState createState() => _SignUpPageState();
-}
-
-class _SignUpPageState extends State<SignUpPage> {
-  // Email validation function
+  // Function to validate email
   String? validateEmail(String? email) {
     RegExp emailRegex = RegExp(r'^[\w\.-]+@[\w-]+\.\w{2,}(\.\w{2,})?$');
     final isEmailValid = emailRegex.hasMatch(email ?? '');
@@ -41,7 +47,8 @@ class _SignUpPageState extends State<SignUpPage> {
     return null;
   }
 
-   String? validatePhoneNumber(String? phoneNumber) {
+  // Function to validate phone number
+  String? validatePhoneNumber(String? phoneNumber) {
     RegExp phoneRegex = RegExp(r'^\+?[0-9]{10,15}$');
     final isPhoneValid = phoneRegex.hasMatch(phoneNumber ?? '');
     if (!isPhoneValid) {
@@ -58,7 +65,6 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 60.0),
           child: Form(
-            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -72,14 +78,17 @@ class _SignUpPageState extends State<SignUpPage> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
-               
-                Image.asset('assets/images/scholarship.png',
-                  height: 300,),
+                Image.asset(
+                  'assets/images/scholarship.png',
+                  height: 300,
+                ),
                 const SizedBox(height: 20),
-            
+
+                // Name input field
                 SizedBox(
                   width: 300,
                   child: TextFormField(
+                    controller: nameController,
                     decoration: InputDecoration(
                       labelText: 'Name',
                       prefixIcon: const Icon(Icons.person),
@@ -93,10 +102,12 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-            
+
+                // Email input field
                 SizedBox(
                   width: 300,
                   child: TextFormField(
+                    controller: emailController,
                     decoration: InputDecoration(
                       labelText: 'Email',
                       prefixIcon: const Icon(Icons.email),
@@ -111,10 +122,12 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-            
+
+                // Phone number input field
                 SizedBox(
                   width: 300,
                   child: TextFormField(
+                    controller: phoneController,
                     decoration: InputDecoration(
                       labelText: 'Phone number',
                       prefixIcon: const Icon(Icons.phone),
@@ -129,10 +142,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-            
+
+                // Password input field
                 SizedBox(
                   width: 300,
                   child: TextFormField(
+                    controller: passwordController,
+                    // hide password charchters
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Password',
@@ -147,53 +163,30 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-               
-                const SizedBox(height:5),
-               
+
+                // Sign Up Button
                 SizedBox(
                   width: 300,
                   child: ElevatedButton(
-                    onPressed: () {
-                      _formKey.currentState!.validate();
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                   Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const LogIn()),
-                                  );
-                                },
-                                child: const Text('Continue')),
-                          ],
-                          title: const Text('GrantEd'),
-                          contentPadding: const EdgeInsets.all(20.0),
-                          content: const Text('Press Continue to Login'),
-                        ),
-                      );
-                    },
+                    onPressed: () => _signup(context),  // Disable button while loading
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      backgroundColor: Color(0xFF234469),
+                      backgroundColor: const Color(0xFF234469),
                     ),
-                    child: const Center(
-                      child: Text(
-                        'Sign up',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                    child: const Text(
+                            'Sign up',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(height: 20),
-            
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -204,9 +197,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     const SizedBox(width: 5),
                     GestureDetector(
                       onTap: () {
+                        // Go to login page id user alreay has account
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const LogIn()),
+                          MaterialPageRoute(builder: (context) => LogIn()),
                         );
                       },
                       child: const Text(

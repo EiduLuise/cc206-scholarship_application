@@ -1,13 +1,37 @@
+import 'package:cc206_scholarship_application/database/userDatabse.dart';
+import 'package:cc206_scholarship_application/features/sign_up_page.dart';
 import 'package:flutter/material.dart';
-
-import '../pages/home_page.dart';
-import '../features/sign_up_page.dart';
-
-final _formKey = GlobalKey<FormState>();
+import 'package:go_router/go_router.dart';
 
 class LogIn extends StatelessWidget {
-  const LogIn({super.key});
+  LogIn({super.key});
 
+  // Controller for text form field
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  final UserDatabase _userDatabase = UserDatabase();
+  
+  // Fetch login methods from userDatabse and validate user credentials
+  void _login(BuildContext context) async {
+    String? result = await(_userDatabase.login(
+      email: emailController.text, 
+      password: passwordController.text)
+      );
+      if (result == emailController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Login successful!')),
+      );
+      // Go to home if credentails are in the firebase authentication
+      GoRouter.of(context).go('/home');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login failed: $result.')),
+      );
+    }
+  }
+
+  // Function to validate email
   String? validateEmail(String? email) {
     RegExp emailRegex = RegExp(r'^[\w\.-]+@[\w-]+\.\w{2,3}(\.\w{2,3})?$');
     final isEmailValid = emailRegex.hasMatch(email ?? '');
@@ -25,7 +49,7 @@ class LogIn extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 60.0),
           child: Form(
-            key: _formKey,
+            key: GlobalKey<FormState>(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -38,19 +62,17 @@ class LogIn extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                
-                Image.asset('assets/images/scholarship.png',
-                  height: 300,),
+                Image.asset('assets/images/scholarship.png', height: 300),
                 const SizedBox(height: 20),
 
+                // Email input field
                 SizedBox(
                   width: 300,
                   child: TextFormField(
+                    controller: emailController,
                     decoration: InputDecoration(
                       labelText: 'Your Email',
                       prefixIcon: const Icon(Icons.email),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 8.0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -62,15 +84,15 @@ class LogIn extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
 
+                // Password input field
                 SizedBox(
                   width: 300,
                   child: TextFormField(
+                    controller: passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       prefixIcon: const Icon(Icons.lock),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 8.0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -81,23 +103,17 @@ class LogIn extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
 
-                const SizedBox(height: 5),
-
+                // Log in button
                 SizedBox(
                   width: 300,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const HomePage()),
-                      );
-                    },
+                    onPressed: () => _login(context),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      backgroundColor: Color(0xFF234469),
+                      backgroundColor: const Color(0xFF234469),
                     ),
                     child: const Center(
                       child: Text(
@@ -122,9 +138,10 @@ class LogIn extends StatelessWidget {
                     const SizedBox(width: 5),
                     GestureDetector(
                       onTap: () {
+                        // Go to sign up page if user does not have an account
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SignUpPage()),
+                          MaterialPageRoute(builder: (context) => SignUpPage()),
                         );
                       },
                       child: const Text(

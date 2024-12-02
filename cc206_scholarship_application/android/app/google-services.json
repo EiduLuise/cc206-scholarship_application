@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "581733573303",
+    "firebase_url": "https://granted-72bc3-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "granted-72bc3",
+    "storage_bucket": "granted-72bc3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581733573303:android:67a0821d1b57a14feba332",
+        "android_client_info": {
+          "package_name": "com.example.cc206_scholarship_application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVjKOYbN2y6VgfZzsB-gj8phC-yB5eoQA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
