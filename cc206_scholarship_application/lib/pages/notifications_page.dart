@@ -2,7 +2,6 @@ import 'package:cc206_scholarship_application/database/fetchAllScholarship.dart'
 import 'package:cc206_scholarship_application/database/scholarship.dart';
 import 'package:cc206_scholarship_application/database/userScholarship.dart';
 import 'package:cc206_scholarship_application/includes/notification_item.dart';
-import 'package:cc206_scholarship_application/pages/calendar_page.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsPage extends StatefulWidget {
