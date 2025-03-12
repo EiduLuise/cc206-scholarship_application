@@ -74,7 +74,7 @@ class CalendarPageState extends State<CalendarPage> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   Map<DateTime, List<Events>> events = {};
-  TextEditingController _eventController = TextEditingController();
+  final TextEditingController _eventController = TextEditingController();
   late final ValueNotifier<List<Events>> _selectedEvents;
 
   @override
@@ -179,7 +179,7 @@ class CalendarPageState extends State<CalendarPage> {
                     lastDay: DateTime.utc(2030, 3, 14),
                     onDaySelected: _onDaySelected,
                     eventLoader: _getEventsForDay,
-                    calendarStyle: CalendarStyle(
+                    calendarStyle: const CalendarStyle(
                       outsideDaysVisible: false,
                       defaultTextStyle: TextStyle(color: Colors.black),
                       todayTextStyle: TextStyle(color: Colors.white),
@@ -292,7 +292,6 @@ class CalendarPageState extends State<CalendarPage> {
               ),
             ],
           ),
-
     );
   }
 }

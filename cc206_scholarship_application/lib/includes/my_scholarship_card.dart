@@ -1,4 +1,3 @@
-import 'package:cc206_scholarship_application/database/userScholarship.dart';
 import 'package:flutter/material.dart';
 import '../database/scholarship.dart';
 
@@ -6,7 +5,7 @@ import '../database/scholarship.dart';
 class MyScholarshipCard extends StatelessWidget {
   final Scholarship scholarship;
 
-  MyScholarshipCard({super.key, required this.scholarship});
+  const MyScholarshipCard({super.key, required this.scholarship});
 
   @override
   Widget build(BuildContext context) {

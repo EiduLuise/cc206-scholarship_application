@@ -38,7 +38,7 @@ final router = GoRouter(
             if (index == 3) {
               myScholarshipPage.currentState?.refreshPage();
             }
-            
+
           },
         );
       },
@@ -48,7 +48,7 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: '/calendar',
-              builder: (context, state) => const CalendarPage(),
+              builder: (context, state) => CalendarPage(key: calendarPage),
             ),
           ],
         ),
@@ -84,7 +84,7 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: '/profile',
-              builder: (context, state) => const ProfilePage(), // Customize profile route
+              builder: (context, state) => const ProfilePage(),
             ),
           ],
         ),
